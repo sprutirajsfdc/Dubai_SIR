@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Buying_Reason__c</fullName>
+    <externalId>false</externalId>
+    <label>Buying Reason</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Developer</fullName>
+                <default>false</default>
+                <label>Developer</label>
+            </value>
+            <value>
+                <fullName>To Live In</fullName>
+                <default>false</default>
+                <label>To Live In</label>
+            </value>
+            <value>
+                <fullName>Additional Residence</fullName>
+                <default>false</default>
+                <label>Additional Residence</label>
+            </value>
+            <value>
+                <fullName>Investor/To Let</fullName>
+                <default>false</default>
+                <label>Investor/To Let</label>
+            </value>
+            <value>
+                <fullName>Land Trader</fullName>
+                <default>false</default>
+                <label>Land Trader</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,145 @@
+<template>
+    <template if:true={desktopView}> 
+    <lightning-card title="Request to Red List">
+     <div style="background-color: rgb(205, 200, 200);">
+        <div class="slds-p-around_small">
+            <lightning-layout multiple rows="false" >
+                <lightning-layout-item size="4"> 
+               <lightning-input type="Date" class="slds-p-around_small" label="Block Date" value={getProplist.CD_Block_Date__c} onchange={handleChange}></lightning-input>
+                    <c-manage-contact-lookup   name="userLookup1"
+                        field-label="Client Name"
+                        child-object-api-name="CD_Property__c"
+                        target-field-api-name="CD_Client_Name__c"
+                        value={getProplist.CD_Client_Name__c}
+                        required="true"
+                        class="validate"
+                        add-to-recent="true"
+                        onvalueselected={handleContactSelectedLookup}></c-manage-contact-lookup>
+                        <lightning-combobox  
+                    label="Full Set Of Documents Received" 
+                    onchange={handleChange} 
+                    required
+                    class="validate"
+                    value={getProplist.CD_Full_set_of_documents_received__c} 
+                    options={options2} ></lightning-combobox>
+                </br>
+                 </br>
+
+                     <lightning-input class="validate" required type="date" label="Date the RA will be signed" data-id="Date the RA will be signed" onchange={handleChange} value={getProplist.CD_Date_the_RA_will_be_signed__c} ></lightning-input>
+                    </br>
+                </br>
+                     <lightning-input class="validate" label="Brokerage Representing Client"
+                     value={getProplist.CD_Brokerage_Representing_Client_Contact__c}
+                     required onchange={handleChange}></lightning-input>     </lightning-layout-item>
+            <lightning-layout-item size="4">
+                <lightning-input class="slds-p-around_x-small" label="Agent Name"
+                value={getProplist.CD_Sales_Agent_Name__c}
+                readonly></lightning-input>
+                <lightning-combobox 
+                label="Split Deal" 
+                onchange={handleChange} 
+                value={getProplist.CD_Split_Deal__c} 
+                options={options2} 
+                required
+                class="validate"
+                data-id="Split Deal" ></lightning-combobox>
+             <lightning-combobox  class="slds-p-around_x-small" label="Mode Of Payment" 
+                    value={getProplist.CD_Mode_of_Payment__c}  options={options} onchange={handleChange}  required data-id="mode of payment"></lightning-combobox>
+                </br>
+                    <lightning-input class="validate" type="date" required label="Date the reservation fees will be paid" data-id="Date the reservation fees will be paid" onchange={handleChange} value={getProplist.CDDate_the_reservation_fees_will_be_paid__c} ></lightning-input> 
+                </br>
+                    <lightning-textarea class="validate" label="Comments" onchange={handleChange} required value={getProplist.CD_Block_Comments__c} data-id="Comments"></lightning-textarea>     
+                </lightning-layout-item>
+                <lightning-layout-item size="4">
+                    <lightning-input class="slds-p-around_small" label="Unit Number" readonly  value={getdatafromparent.CD_Unit_Number__c}></lightning-input>
+                    <c-manage-contact-lookup class="validate"  name="userLookup1"
+                        field-label="Split Agent Name"
+                        child-object-api-name="CD_Property__c"
+                        target-field-api-name="CD_Second_Agent__c"
+                        value={getProplist.CD_Second_Agent__c}
+                        required={requiredSplitAgent}
+                        add-to-recent="true"
+                        onvalueselected={handlesecondUserSelectedLookup}></c-manage-contact-lookup> 
+                        <lightning-input class="validate" label="% of Reservation Fees to be paid" required onchange={handleChange} value={getProplist.CD_Reservation_Fees_be_Paid__c}></lightning-input>
+                    </br>
+                </br>
+                        <lightning-input class="validate" label="Agent Representing Client"
+                value={getProplist.CD_Agent_Representing_Client_contact__c}
+                required onchange={handleChange}></lightning-input>
+            </lightning-layout-item>
+            </lightning-layout>
+        <div class="slds-p-left_medium slds-align_absolute-center" slot="footer" >
+            <lightning-button variant="success" label="Submit for Approval" title="Successful action" onclick={handleSubmit} class="slds-m-right_medium" ></lightning-button>
+            <lightning-button variant="Neutral" label="Cancel" onclick={closeChild} class="slds-m-right_medium"></lightning-button>
+        </div>
+</div>
+</div>
+</lightning-card>
+</template> 
+
+<!--            ****** Mobile component starts Here **********        -->
+<template if:true={ismobileRendered}>
+    <lightning-card>
+        <div class ="slds-box" >
+   <div style="background-color: white;">
+        <div class="slds-p-around_xxx-small">
+            <lightning-input type="date" class="slds-p-around_xxx-small" label="Block Date" value={getProplist.CD_Block_Date__c} onchange={handleChange}></lightning-input>
+            <lightning-input class="slds-p-around_xxx-small" label="Agent Name"
+            value={getProplist.CD_Sales_Agent_Name__c}
+            readonly></lightning-input>
+            <lightning-input class="slds-p-around_xxx-small" label="Unit Number" readonly  value={getdatafromparent.CD_Unit_Number__c}></lightning-input>
+                    <c-manage-contact-lookup   name="userLookup1"
+                        field-label="Client Name"
+                        child-object-api-name="CD_Property__c"
+                        target-field-api-name="CD_Client_Name__c"
+                        value={getProplist.CD_Client_Name__c}
+                        required="true"
+                        class="slds-p-around_xxx-small"
+                        add-to-recent="true"
+                        onvalueselected={handleContactSelectedLookup}></c-manage-contact-lookup>
+                        <lightning-combobox 
+                label="Split Deal" 
+                onchange={handleChange} 
+                value={getProplist.CD_Split_Deal__c} 
+                options={options2} 
+                required
+                class="validate"
+                data-id="Split Deal" ></lightning-combobox>
+                <c-manage-contact-lookup class="slds-p-around_xxx-small"  name="userLookup1"
+                field-label="Split Agent Name"
+                child-object-api-name="CD_Property__c"
+                target-field-api-name="CD_Second_Agent__c"
+                value={getProplist.CD_Second_Agent__c}
+                required={requiredSplitAgent}
+                add-to-recent="true"
+                onvalueselected={handlesecondUserSelectedLookup}></c-manage-contact-lookup> 
+                        <lightning-combobox  
+                    label="Full Set Of Documents Received" 
+                    onchange={handleChange} 
+                    required
+                    class="slds-p-around_xxx-small"
+                    value={getProplist.CD_Full_set_of_documents_received__c} 
+                    options={options2} ></lightning-combobox>
+                   <lightning-combobox  class="slds-p-around_xxx-small" label="Mode Of Payment" 
+             value={getProplist.CD_Mode_of_Payment__c}  options={options} onchange={handleChange}  required data-id="mode of payment"></lightning-combobox>
+             <lightning-input class="slds-p-around_xxx-small" label="% of Reservation Fees to be paid" required onchange={handleChange} value={getProplist.CD_Reservation_Fees_be_Paid__c}></lightning-input>
+                     <lightning-input class="slds-p-around_xxx-small" required type="date" label="Date the RA will be signed" data-id="Date the RA will be signed" onchange={handleChange} value={getProplist.CD_Date_the_RA_will_be_signed__c} ></lightning-input>
+                     <lightning-input class="slds-p-around_xxx-small" type="date" required label="Date the reservation fees will be paid" data-id="Date the reservation fees will be paid" onchange={handleChange} value={getProplist.CDDate_the_reservation_fees_will_be_paid__c} ></lightning-input>
+                     <lightning-input class="slds-p-around_xxx-small" label="Agent Representing Client"
+                value={getProplist.CD_Agent_Representing_Client_contact__c}
+                required onchange={handleChange}></lightning-input>
+                     <lightning-input class="slds-p-around_xxx-small" label="Brokerage Representing Client"
+                     value={getProplist.CD_Brokerage_Representing_Client_Contact__c}
+                     required onchange={handleChange}></lightning-input>
+              <lightning-textarea class="slds-p-around_xxx-small" label="Comments" onchange={handleChange} required value={getProplist.CD_Block_Comments__c} data-id="Comments"></lightning-textarea>     
+ 
+        <div class="slds-p-left_medium slds-align_absolute-center" slot="footer" >
+            <lightning-button variant="success" label="Submit for Approval" title="Successful action" onclick={handleSubmit} class="slds-p-around_xxx-small" ></lightning-button>
+            <lightning-button variant="Neutral" label="Cancel" onclick={closeChild} class="slds-p-around_xxx-small"></lightning-button>
+        </div>
+</div>
+</div>
+</div>
+</lightning-card>
+</template>
+</template>
