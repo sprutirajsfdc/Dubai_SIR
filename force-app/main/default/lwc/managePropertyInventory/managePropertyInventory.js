@@ -53,6 +53,7 @@ import HALF_BATHROOM from '@salesforce/schema/CD_Property__c.CD_Half_Bathrooms_p
 import IMAGE from '@salesforce/schema/CD_Property__c.CD_Image__c';
 import INTERNAL_ID from '@salesforce/schema/CD_Property__c.CD_Internal_Area__c';
 import LATITUDE from '@salesforce/schema/CD_Property__c.CD_Latitude_pb__c';
+import AGENT_NAMETEXT from '@salesforce/schema/CD_Property__c.Cd_Agent_Name1__c'
 import LAYOUT_TYPE from '@salesforce/schema/CD_Property__c.CD_Layout_Type__c';
 import LOCATIONTEXT_DUBIZZLE from '@salesforce/schema/CD_Property__c.CD_uaefields_Locationtext_Dubizzle__c';
 import LONGITUDE from '@salesforce/schema/CD_Property__c.CD_Longitude_pb__c';
@@ -240,7 +241,7 @@ export default class ManagePropertyInventory extends NavigationMixin(LightningEl
         DEVELOPER,DEVELOPER_NAME,EXTERNAL_PROPERTY,FLOOR,FLOOR1,FLOORS,FURNISHED,GEOCODE_ACCURACY,HALF_BATHROOM,IMAGE,INTERNAL_ID,LATITUDE,
         LAYOUT_TYPE,LOCATIONTEXT_DUBIZZLE,LONGITUDE,LOT_SIZE,MAIN_WEBSITE,MASTER_PROPERTY,MEASUREMENT,MIGRATION_STATE,NUMBER_OF_CHEQUES,PARENT_PROJECT,
         PARKING_SPACES,PARKING_SPACES2,PARKING_SPACES3,PRICE_ON_REQUEST,PRICE_SQUARE_FT,PRIVATE_AMENTIES,PROJECT,PROPERTY_NAME,PROPERTY_SUBTYPE,PROPERTYFINDER_REGION,
-        PROPERTY_OWNER,PROPERTY_OWNER2,SALES_PRICE,SERVICE_CHARGE,SIZE,STATE,STATE_CODE,STATUS,STORIES,STREET,SUB_COMMUNITY_PROPERTYFINDER,SYSTEM_EXTERNAL_ID
+        PROPERTY_OWNER,PROPERTY_OWNER2,AGENT_NAMETEXT,SALES_PRICE,SERVICE_CHARGE,SIZE,STATE,STATE_CODE,STATUS,STORIES,STREET,SUB_COMMUNITY_PROPERTYFINDER,SYSTEM_EXTERNAL_ID
     ,SYSTEM_WEBSITE_EXTERNAL_ID,TITLE, TITLE_ARABIC,TOTAL_AREA,TOWER,UNIT_EXTERNAL_ID, UNIT_NUMBER,UNITS,USER_FULLNAME,VIEW,VIEW1,VIEW2,YEAR_BUILD,YEAR_BUILD2,ZIP_CODE];
     
     fields1=[PROJECT, UNIT_NUMBER, SELLING_PRICE_FORMULA, STATUS,
@@ -248,20 +249,20 @@ export default class ManagePropertyInventory extends NavigationMixin(LightningEl
         TOTAL_AREA, INTERNAL_ID, BALCONY_AREA, AGENT_NAME ];
 
     fields2=[PROPERTY_NAME, PROPERTY_SUBTYPE, LAYOUT_TYPE,  PRICE_SQUARE_FT, 
-        SIZE, PARKING_SPACES,
+        SIZE, PARKING_SPACES,AGENT_NAMETEXT,
         BOOK_DATE, COMPLETION_DATE, BROKER_LISTING_ID, PARKING_SPACES2, 
         PARKING_SPACES3, PRICE_ON_REQUEST, PRIVATE_AMENTIES, SERVICE_CHARGE, 
         SUB_COMMUNITY_PROPERTYFINDER, UNIT_EXTERNAL_ID, USER_FULLNAME, 
         STATE, STREET, ZIP_CODE, YEAR_BUILD ];
 
-        fields3=[PROJECT, PROPERTY_NAME, UNIT_NUMBER, SALES_PRICE, STATUS, INTERNAL_ID ,TOTAL_AREA ];
+        fields3=[PROJECT, PROPERTY_NAME, UNIT_NUMBER, SALES_PRICE, STATUS, INTERNAL_ID ,TOTAL_AREA ,AGENT_NAMETEXT];
 
-        fields4=[PROJECT, PROPERTY_NAME, UNIT_NUMBER, STATUS, AGENT_NAME,INTERNAL_ID,BALCONY_AREA,BOOK_DATE,TOTAL_AREA,SIZE,TYPE_FIELD,SALES_PRICE];
+        fields4=[PROJECT, PROPERTY_NAME, UNIT_NUMBER, STATUS,,AGENT_NAMETEXT, AGENT_NAME,INTERNAL_ID,BALCONY_AREA,BOOK_DATE,TOTAL_AREA,SIZE,TYPE_FIELD,SALES_PRICE];
         
              
 
             newPropertyFields=[PROJECT, UNIT_NUMBER, SALES_PRICE, STATUS,
-                TYPE_FIELD, VIEW2, TOWER, UNITS,  
+                TYPE_FIELD, VIEW2, TOWER, UNITS,AGENT_NAMETEXT,  
                 TOTAL_AREA, INTERNAL_ID, BALCONY_AREA, AGENT_NAME,
                 PROPERTY_NAME, PROPERTY_SUBTYPE, LAYOUT_TYPE,  PRICE_SQUARE_FT, 
                 SIZE, PARKING_SPACES,BOOK_DATE, COMPLETION_DATE, BROKER_LISTING_ID, PARKING_SPACES2, 
@@ -1169,7 +1170,7 @@ handleRowAction(event){
 
         console.log('isblock inside if 1 ', this.tableData[objIndx].CD_isblocked__c);          
 
-        this.isButtonDisabled= true;
+        this.isButtonDisabled= false;
 
         console.log('button 1'+this.isButtonDisabled);
 
@@ -1428,11 +1429,11 @@ closeManageReservation(){
                 
                 if(this.dataList[0].CD_isblocked__c === true || this.dataList[0].Status__c != 'Available'){
                    // console.log('isblock inside if 1 ', this.dataList[0].CD_isblocked__c);          
-                    this.isButtonDisabled= true;
+                    this.isButtonDisabled= false;
                     console.log('button 1'+this.isButtonDisabled);
                 }
                 else{
-                    this.isButtonDisabled= false;
+                    this.isButtonDisabled= true;
                 } 
             }
     
@@ -2036,7 +2037,7 @@ handleCardClick(event){
 
         console.log('isblock inside if 1 ', this.tableData[objIndx].CD_isblocked__c);          
 
-        this.isButtonDisabled= true;
+        this.isButtonDisabled= false;
 
         console.log('button 1'+this.isButtonDisabled);
 

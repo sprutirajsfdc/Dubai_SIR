@@ -2,19 +2,19 @@ import { LightningElement,track,wire,api} from 'lwc';
 import getList from '@salesforce/apex/customApprovalPageCntrlr.getAgentSumbittedApprvRec';
 import getUserInfo from '@salesforce/apex/PropertyCreationController.getUserInfo';
 import PROPERTY_OBJECT from '@salesforce/schema/CD_Property__c';
-import AGENT_NAME from '@salesforce/schema/CD_Property__c.CD_Sales_Agent_Name__c';
+import AGENT_NAME from '@salesforce/schema/CD_Property__c.Cd_Agent_Name1__c';
 import PURCHASE_DATE from '@salesforce/schema/CD_Property__c.CD_Purchase_date__c';
 import PAYMENT_MODE from '@salesforce/schema/CD_Property__c.CD_Mode_of_Payment__c';
 import PAYMENT_PERCENTAGE from '@salesforce/schema/CD_Property__c.CD_Reservation_Fees_be_Paid__c';
 import BLOCK_DATE from '@salesforce/schema/CD_Property__c.CD_Block_Date__c';
-import FULL_SET_OF_DOCUMENT from '@salesforce/schema/CD_Property__c.CD_Full_set_of_documents_received__c';
+import FULL_SET_OF_DOCUMENT from '@salesforce/schema/CD_Property__c.CD_Buyer_Documents_Received__c';
 import SPLIT_DEAL from '@salesforce/schema/CD_Property__c.CD_Split_Deal__c';
 import DATE_RA_WILL_BE_SINGED from '@salesforce/schema/CD_Property__c.CD_Date_the_RA_will_be_signed__c';
 import BLOCK_COMMENTS from '@salesforce/schema/CD_Property__c.CD_Block_Comments__c';
 import DATE_THE_RESERVATION_FEE from '@salesforce/schema/CD_Property__c.CDDate_the_reservation_fees_will_be_paid__c';
 import AGENT_REPRESENTATING_CLIENT from '@salesforce/schema/CD_Property__c.CD_Agent_Representing_Client__c';
 import BROKAGE_REPRESENTATING_CLIENT from '@salesforce/schema/CD_Property__c.CD_Brokerage_Representing_Client__c';
-import CLIENT_NAME from '@salesforce/schema/CD_Property__c.CD_Client_Name__c';
+import CLIENT_NAME from '@salesforce/schema/CD_Property__c.CD_Client_Name1__c';
 import UNIT_NUMBER from '@salesforce/schema/CD_Property__c.CD_Unit_Number__c';
 import SECOND_AGENT_NAME from '@salesforce/schema/CD_Property__c.CD_Second_Agent__c';
 import FORM_FACTOR from '@salesforce/client/formFactor';
@@ -33,9 +33,9 @@ export default class AgentPendingApprovalReqCom extends LightningElement {
       { label: 'Expiry Date', fieldName: 'CD_Expiry_Date__c', type: 'button', typeAttributes:{label: {fieldName:'CD_Expiry_Date__c'},variant:'base'}
   
       },
-      { label: 'Client Name', fieldName: 'Client_Name__c', type: 'button', typeAttributes:{label: {fieldName:'Client_Name__c'},variant:'base'}
+      { label: 'Agent Name', fieldName: 'Cd_Agent_Name1__c', type: 'text'}
   
-      },
+      
     ];
 
     fields2=[AGENT_NAME,UNIT_NUMBER,SPLIT_DEAL,SECOND_AGENT_NAME,CLIENT_NAME,FULL_SET_OF_DOCUMENT,DATE_RA_WILL_BE_SINGED,DATE_THE_RESERVATION_FEE,PAYMENT_MODE,PAYMENT_PERCENTAGE,BROKAGE_REPRESENTATING_CLIENT,

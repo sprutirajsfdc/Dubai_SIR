@@ -6,7 +6,7 @@
             <lightning-layout multiple rows="false" >
                 <lightning-layout-item size="4"> 
                <lightning-input type="Date" class="slds-p-around_small" label="Block Date" value={getProplist.CD_Block_Date__c} onchange={handleChange}></lightning-input>
-                    <c-manage-contact-lookup   name="userLookup1"
+                    <!-- <c-manage-contact-lookup   name="userLookup1"
                         field-label="Client Name"
                         child-object-api-name="CD_Property__c"
                         target-field-api-name="CD_Client_Name__c"
@@ -14,9 +14,10 @@
                         required="true"
                         class="validate"
                         add-to-recent="true"
-                        onvalueselected={handleContactSelectedLookup}></c-manage-contact-lookup>
+                        onvalueselected={handleContactSelectedLookup}></c-manage-contact-lookup> -->
+                        <lightning-input class="slds-p-around_small" label="Client Name"  value={getdatafromparent.CD_Client_Name1__c}></lightning-input>
                         <lightning-combobox  
-                    label="Full Set Of Documents Received" 
+                    label="Buyer Documents Received" 
                     onchange={handleChange} 
                     required
                     class="validate"
@@ -34,7 +35,7 @@
             <lightning-layout-item size="4">
                 <lightning-input class="slds-p-around_x-small" label="Agent Name"
                 value={getProplist.CD_Sales_Agent_Name__c}
-                readonly></lightning-input>
+                    ></lightning-input>
                 <lightning-combobox 
                 label="Split Deal" 
                 onchange={handleChange} 
@@ -52,6 +53,7 @@
                 </lightning-layout-item>
                 <lightning-layout-item size="4">
                     <lightning-input class="slds-p-around_small" label="Unit Number" readonly  value={getdatafromparent.CD_Unit_Number__c}></lightning-input>
+                    <lightning-input class="slds-p-around_small" label="Red List till Date" type="datetime" value={getdatafromparent.CD_Red_List_till_Date__c}></lightning-input>
                     <c-manage-contact-lookup class="validate"  name="userLookup1"
                         field-label="Split Agent Name"
                         child-object-api-name="CD_Property__c"
@@ -63,7 +65,7 @@
                         <lightning-input class="validate" label="% of Reservation Fees to be paid" required onchange={handleChange} value={getProplist.CD_Reservation_Fees_be_Paid__c}></lightning-input>
                     </br>
                 </br>
-                        <lightning-input class="validate" label="Agent Representing Client"
+                        <lightning-input class="validate" label="Buyer Representing agent"
                 value={getProplist.CD_Agent_Representing_Client_contact__c}
                 required onchange={handleChange}></lightning-input>
             </lightning-layout-item>
@@ -128,7 +130,7 @@
                      <lightning-input class="slds-p-around_xxx-small" label="Agent Representing Client"
                 value={getProplist.CD_Agent_Representing_Client_contact__c}
                 required onchange={handleChange}></lightning-input>
-                     <lightning-input class="slds-p-around_xxx-small" label="Brokerage Representing Client"
+                     <lightning-input class="slds-p-around_xxx-small" label="Agency Representing Client"
                      value={getProplist.CD_Brokerage_Representing_Client_Contact__c}
                      required onchange={handleChange}></lightning-input>
               <lightning-textarea class="slds-p-around_xxx-small" label="Comments" onchange={handleChange} required value={getProplist.CD_Block_Comments__c} data-id="Comments"></lightning-textarea>     
