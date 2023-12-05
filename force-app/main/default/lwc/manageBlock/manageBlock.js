@@ -1,5 +1,6 @@
 import { LightningElement,api,wire } from 'lwc';
 import updateProperty from '@salesforce/apex/managePropertyCls.updateProperty';
+import submitForApproval from '@salesforce/apex/managePropertyCls.submitForApproval';
 import {ShowToastEvent} from 'lightning/platformShowToastEvent';
 import { getRecord } from 'lightning/uiRecordApi';
 import USER_ID from '@salesforce/user/Id';
@@ -14,11 +15,14 @@ import FORM_FACTOR from '@salesforce/client/formFactor';
 // import COMMENTS from '@salesforce/schema/CD_Property__c.CD_Block_Comments__c';
 // import AGENT_NAME from '@salesforce/schema/CD_Property__c.CD_Agent_Name__c';
 
+
+
 export default class ManageBlock extends LightningElement {
 //    @api objectApiName = Property_OBJECT;
 //    fields= [PURCHASE_DATE,MODE_OF_PAYMENT, PAYMENT_PERCENTAGE, COMMENTS, AGENT_NAME];
    @api getidfromparent;
    @api getdatafromparent;
+    @api recordId;
    getProplist={};
    blockComments;
    currentDate;
@@ -96,17 +100,17 @@ handleChange(event){
             this.requiredSplitAgent = false;
         }
     }
-    if(event.target.label === 'Full Set Of Documents Received'){
-        this.getProplist.CD_Full_set_of_documents_received__c = event.detail.value;
-        console.log('Full Set Of Documents Received', this.getProplist.CD_Full_set_of_documents_received__c);
+    if(event.target.label === 'Buyer Documents Received'){
+        this.getProplist.CD_Buyer_Documents_Received__c = event.detail.value;
+        console.log('Buyer Documents Received', this.getProplist.CD_Buyer_Documents_Received__c);
     }
     if(event.target.label === 'Block Date'){
         this.getProplist.CD_Block_Date__c = event.detail.value;
         console.log('Block Date', this.getProplist.CD_Block_Date__c);
     }
-    if(event.target.label === 'Date the RA will be signed'){
-        this.getProplist.CD_Date_the_RA_will_be_signed__c = event.detail.value;
-        console.log('Date the RA will be signed', this.getProplist.CD_Date_the_RA_will_be_signed__c);
+    if(event.target.label === 'Buyer Representing agent	'){
+        this.getProplist.CD_Agent_Representing_Client__c	 = event.detail.value;
+        console.log('Buyer Representing agent', this.getProplist.CD_Agent_Representing_Client__c	);
     }
     if(event.target.label === 'Date the reservation fees will be paid'){
         this.getProplist.CDDate_the_reservation_fees_will_be_paid__c = event.detail.value;
@@ -206,81 +210,60 @@ handleBrokeageRepresentingLookup(event){
 } */
 
 handleSubmit(){
+ const isInputsCorrect = [...this.template.querySelectorAll("lightning-input")].reduce((validSoFar, inputField) => {
+            inputField.reportValidity();
+            return validSoFar && inputField.checkValidity();
+        }, true);
 
-    const isInputsCorrect =[
-        ...this.template.querySelectorAll("lightning-input")
-    ].reduce((validSoFar ,inputField) =>{
-        inputField.reportValidity();
-        return validSoFar && inputField.checkValidity();
-    },true);
+        const isInputsCorrect2 = [...this.template.querySelectorAll("lightning-combobox")].reduce((validSoFar, inputField) => {
+            inputField.reportValidity();
+            return validSoFar && inputField.checkValidity();
+        }, true);
 
-    const isInputsCorrect2 =[
-        ...this.template.querySelectorAll("lightning-combobox")
-    ].reduce((validSoFar ,inputField) =>{
-        inputField.reportValidity();
-        return validSoFar && inputField.checkValidity();
-    },true);
-    // const isInputsCorrect3 =[
-    //     ...this.template.querySelectorAll("c-manage-contact-lookup")
-    // ].reduce((validSoFar ,inputField) =>{
-    //     inputField.reportValidity();
-    //     return validSoFar && inputField.checkValidity();
-    // },true);
-
-
-    if(isInputsCorrect && isInputsCorrect2)
-    {
-        if(this.getProplist.CD_Split_Deal__c === 'Yes' && this.getProplist.CD_Second_Agent__c == null)
-        {
-          this.showAlert()
+        if (isInputsCorrect && isInputsCorrect2) {
+            if (this.getProplist.CD_Split_Deal__c === 'Yes' && this.getProplist.CD_Second_Agent__c == null) {
+                this.showAlert();
+            } else {
+                console.log('CheckId', this.getidfromparent);
+                console.log('check comment', this.getProplist);
+                updateProperty({ probId: this.getidfromparent, propsList: this.getProplist })
+                    .then((result) => {
+                        console.log('CheckId 2', this.getidfromparent);
+                        console.log("returned result", result);
+                        if (result == 'Please add approval in Project before submit for approval') {
+                            this.dispatchEvent(new ShowToastEvent({
+                                title: 'Warning',
+                                message: 'Please add Project Approver in Project before submit for approval',
+                                variant: 'Warning'
+                            }));
+                        } else {
+                            // After updating the property, submit for approval
+                            submitForApproval({ recordId: this.recordId })
+                                .then(approvalResult => {
+                                    console.log('Approval Result', approvalResult);
+                                    this.dispatchEvent(new ShowToastEvent({
+                                        title: 'Success!',
+                                        message: 'You have blocked this property and submitted for approval',
+                                        variant: 'success'
+                                    }));
+                                    this.closeChild();
+                                    window.location.reload();
+                                })
+                                .catch(approvalError => {
+                                    console.error('Approval Error', approvalError);
+                                });
+                        }
+                    })
+                    .catch((error) => {
+                        console.log('CheckId 2', this.getidfromparent);
+                        console.log('checkError', error);
+                    });
+            }
         }
-        else
-        {
-            console.log('CheckId', this.getidfromparent);
-    console.log('check comment' ,this.getProplist);
-    updateProperty({probId:this.getidfromparent, propsList:this.getProplist})
-    .then((result)=>{     
-        console.log('CheckId 2', this.getidfromparent);  
-        console.log("returned result",result) ;
-        if(result == 'Please add aproval in Project before submit for approval')
-        {
-            console.log("returned result",result) ;
-            
-            this.dispatchEvent(new ShowToastEvent({
-            title:'Warning',
-            message: ' Please add Project Approver in Project before submit for approval',
-            variant:'Warning'
-            }),);
-        }
-        else{
-            this.dispatchEvent(new ShowToastEvent({
-            title:'Success!',
-            message: 'You have blocked this property ',
-            variant:'success'
-            }),); 
-        this.closeChild();
-        window.location.reload()
-        }
-        
-       // this.getProplist= {};
-        // const toastEvent = new ShowToastEvent({
-        //     title:'Success!',
-        //     message: 'You have blocked this property ',
-        //     variant:'success'
-        //     });
-                 
-        }
-    )
-    .catch((error)=>{
-
-        console.log('CheckId 2', this.getidfromparent);
-        console.log('checkError', error);
-
-    }) 
-        }
-    }
    
-}
+    }
+
+
 closeChild(){
 
    
