@@ -74,17 +74,17 @@
 .input1{
       padding: 21px;
     font-size: 13px;
-    font-weight: bold;
+    /* font-weight: bold; */
 }
 .input2{
    padding: 0px;
     font-size: 13px;
-    font-weight: bold;
+    /* font-weight: bold; */
 }
 .input3{
   padding: 22px;
     font-size: 13px;
-    font-weight: bold;
+    /* font-weight: bold; */
 }
 .maincard{
 background-color: darkgray;

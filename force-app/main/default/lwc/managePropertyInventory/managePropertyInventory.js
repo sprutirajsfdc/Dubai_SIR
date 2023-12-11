@@ -12,6 +12,7 @@ import SELLING_PRICE_FORMULA from '@salesforce/schema/CD_Property__c.Sales_Price
 import getSearchResult from '@salesforce/apex/ManagePropertyCntrlr.searchResults';
 import { getPicklistValues,getObjectInfo } from 'lightning/uiObjectInfoApi';
 import TYPE_FIELD  from '@salesforce/schema/CD_Property__c.Type__c';
+import Furnished_FIELD  from '@salesforce/schema/CD_Property__c.CD_uaefields_Furnished__c';
 import NO_OF_BEDS from '@salesforce/schema/CD_Property__c.CD_No_of_Beds__c';
 import CITY_FIELD  from '@salesforce/schema/CD_Property__c.City_Dubizzle__c';
 import ADDRESS_LINE from '@salesforce/schema/CD_Property__c.CD_Address_line_1__c';
@@ -53,7 +54,7 @@ import HALF_BATHROOM from '@salesforce/schema/CD_Property__c.CD_Half_Bathrooms_p
 import IMAGE from '@salesforce/schema/CD_Property__c.CD_Image__c';
 import INTERNAL_ID from '@salesforce/schema/CD_Property__c.CD_Internal_Area__c';
 import LATITUDE from '@salesforce/schema/CD_Property__c.CD_Latitude_pb__c';
-import AGENT_NAMETEXT from '@salesforce/schema/CD_Property__c.Cd_Agent_Name1__c'
+import AGENT_NAMETEXT from '@salesforce/schema/CD_Property__c.CD_Agent_Name_User__c';
 import LAYOUT_TYPE from '@salesforce/schema/CD_Property__c.CD_Layout_Type__c';
 import LOCATIONTEXT_DUBIZZLE from '@salesforce/schema/CD_Property__c.CD_uaefields_Locationtext_Dubizzle__c';
 import LONGITUDE from '@salesforce/schema/CD_Property__c.CD_Longitude_pb__c';
@@ -242,10 +243,10 @@ export default class ManagePropertyInventory extends NavigationMixin(LightningEl
         LAYOUT_TYPE,LOCATIONTEXT_DUBIZZLE,LONGITUDE,LOT_SIZE,MAIN_WEBSITE,MASTER_PROPERTY,MEASUREMENT,MIGRATION_STATE,NUMBER_OF_CHEQUES,PARENT_PROJECT,
         PARKING_SPACES,PARKING_SPACES2,PARKING_SPACES3,PRICE_ON_REQUEST,PRICE_SQUARE_FT,PRIVATE_AMENTIES,PROJECT,PROPERTY_NAME,PROPERTY_SUBTYPE,PROPERTYFINDER_REGION,
         PROPERTY_OWNER,PROPERTY_OWNER2,AGENT_NAMETEXT,SALES_PRICE,SERVICE_CHARGE,SIZE,STATE,STATE_CODE,STATUS,STORIES,STREET,SUB_COMMUNITY_PROPERTYFINDER,SYSTEM_EXTERNAL_ID
-    ,SYSTEM_WEBSITE_EXTERNAL_ID,TITLE, TITLE_ARABIC,TOTAL_AREA,TOWER,UNIT_EXTERNAL_ID, UNIT_NUMBER,UNITS,USER_FULLNAME,VIEW,VIEW1,VIEW2,YEAR_BUILD,YEAR_BUILD2,ZIP_CODE];
+    ,SYSTEM_WEBSITE_EXTERNAL_ID,TITLE, TITLE_ARABIC,TOTAL_AREA,Furnished_FIELD,TOWER,UNIT_EXTERNAL_ID, UNIT_NUMBER,UNITS,USER_FULLNAME,VIEW,VIEW1,VIEW2,YEAR_BUILD,YEAR_BUILD2,ZIP_CODE];
     
     fields1=[PROJECT, UNIT_NUMBER, SELLING_PRICE_FORMULA, STATUS,
-        TYPE_FIELD, VIEW2, TOWER, UNITS,  
+        TYPE_FIELD, VIEW2, TOWER, UNITS,Furnished_FIELD,  
         TOTAL_AREA, INTERNAL_ID, BALCONY_AREA, AGENT_NAME ];
 
     fields2=[PROPERTY_NAME, PROPERTY_SUBTYPE, LAYOUT_TYPE,  PRICE_SQUARE_FT, 
@@ -255,14 +256,14 @@ export default class ManagePropertyInventory extends NavigationMixin(LightningEl
         SUB_COMMUNITY_PROPERTYFINDER, UNIT_EXTERNAL_ID, USER_FULLNAME, 
         STATE, STREET, ZIP_CODE, YEAR_BUILD ];
 
-        fields3=[PROJECT, PROPERTY_NAME, UNIT_NUMBER, SALES_PRICE, STATUS, INTERNAL_ID ,TOTAL_AREA ,AGENT_NAMETEXT];
+        fields3=[PROJECT, PROPERTY_NAME, UNIT_NUMBER, SALES_PRICE, STATUS, INTERNAL_ID ,TOTAL_AREA ,Furnished_FIELD,AGENT_NAMETEXT];
 
         fields4=[PROJECT, PROPERTY_NAME, UNIT_NUMBER, STATUS,,AGENT_NAMETEXT, AGENT_NAME,INTERNAL_ID,BALCONY_AREA,BOOK_DATE,TOTAL_AREA,SIZE,TYPE_FIELD,SALES_PRICE];
         
              
 
             newPropertyFields=[PROJECT, UNIT_NUMBER, SALES_PRICE, STATUS,
-                TYPE_FIELD, VIEW2, TOWER, UNITS,AGENT_NAMETEXT,  
+                TYPE_FIELD, VIEW2, TOWER, UNITS,AGENT_NAMETEXT,Furnished_FIELD,  
                 TOTAL_AREA, INTERNAL_ID, BALCONY_AREA, AGENT_NAME,
                 PROPERTY_NAME, PROPERTY_SUBTYPE, LAYOUT_TYPE,  PRICE_SQUARE_FT, 
                 SIZE, PARKING_SPACES,BOOK_DATE, COMPLETION_DATE, BROKER_LISTING_ID, PARKING_SPACES2, 
@@ -1160,7 +1161,7 @@ handleRowAction(event){
     {
         this.showViewUnitButton = true;
     }
-    if((this.userId == this.tableData[objIndx].CD_Agent_Name_User__c && (this.tableData[objIndx].Status__c === 'Sold' || this.tableData[objIndx].Status__c === 'Red Listed' || this.tableData[objIndx].Status__c === 'Red List Review') )|| (this.tableData[objIndx].Status__c !== 'Sold' && this.tableData[objIndx].Status__c !== 'Red Listed') || this.varProfileName === 'PB Administrator' || this.varProfileName === 'PB Listing Manager' || this.varProfileName ==='Development Projects')
+    if((this.userId == this.tableData[objIndx].CD_Agent_Name_User__c && (this.tableData[objIndx].Status__c === 'Sold' || this.tableData[objIndx].Status__c === 'Red Listed' || this.tableData[objIndx].Status__c === 'Red List Review') )|| (this.tableData[objIndx].Status__c !== 'Sold' && this.tableData[objIndx].Status__c !== 'Red Listed') || this.varProfileName === 'PB Administrator' || this.varProfileName === 'PB Listing Manager' || this.varProfileName ==='Development Projects' || this.varProfileName=='Superuser' || this.varProfileName=='PB Superuser')
     {
         console.log('Agentid in if condition',this.tableData[objIndx].CD_Agent_Name_User__c);
         console.log('Agentid in if condition',this.userId); 

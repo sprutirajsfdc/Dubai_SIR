@@ -1,6 +1,6 @@
 import { LightningElement,api,wire } from 'lwc';
 import updateProperty from '@salesforce/apex/managePropertyCls.updateProperty';
-import submitForApproval from '@salesforce/apex/managePropertyCls.submitForApproval';
+// import submitForApproval from '@salesforce/apex/managePropertyCls.submitForApproval';
 import {ShowToastEvent} from 'lightning/platformShowToastEvent';
 import { getRecord } from 'lightning/uiRecordApi';
 import USER_ID from '@salesforce/user/Id';
